@@ -41,16 +41,15 @@ data class UserResponse(
         silver = this.silver,
         gold = this.gold
     )
+}
 
-    fun UserResponse.toUser() = this.items.firstNotNullOf {
-        User(
-            userId = it.userId,
-            userName = it.displayName,
-            reputation = it.reputation,
-            badges = it.badgeCountsDto.toBadgeCounts(),
-            location = it.link,
-            creationDate = it.creationDate
-        )
-    }
-
+fun UserResponse.toUser() = this.items.firstNotNullOf {
+    User(
+        userId = it.userId,
+        userName = it.displayName,
+        reputation = it.reputation,
+        badges = it.badgeCountsDto.toBadgeCounts(),
+        location = it.link,
+        creationDate = it.creationDate
+    )
 }

@@ -15,11 +15,10 @@ data class UsersResponse(
         @SerializedName("user_id")
         val userId: Int
     )
-
-    fun UsersResponse.toUsers() = Users(
-        items.map {
-            User(userId = it.userId, userName = it.displayName)
-        }
-    )
-
 }
+
+fun UsersResponse.toUsers() = Users(
+    items.map {
+        User(userId = it.userId, userName = it.displayName)
+    }
+)
