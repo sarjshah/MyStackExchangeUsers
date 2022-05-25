@@ -10,7 +10,9 @@ import retrofit2.http.Query
 interface StackExchangeApi {
 
     @GET("users")
-    suspend fun getUsers(): UsersResponse
+    suspend fun getUsers(
+        @Query("site")
+        site: String = Constants.STACK_EXCHANGE_SITE): UsersResponse
 
     @GET("users/{userId}")
     suspend fun getUser(
