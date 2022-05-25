@@ -4,6 +4,9 @@ import com.practice.mystackexchangeusers.common.Constants
 import com.practice.mystackexchangeusers.data.remote.StackExchangeApi
 import com.practice.mystackexchangeusers.data.repository.UserRepositoryImpl
 import com.practice.mystackexchangeusers.domain.repository.UserRepository
+import com.practice.mystackexchangeusers.domain.usecase.UserUseCases
+import com.practice.mystackexchangeusers.domain.usecase.userdetail.GetUserUseCase
+import com.practice.mystackexchangeusers.domain.usecase.userlist.GetUsersUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,4 +31,10 @@ object AppModule {
     @Singleton
     fun provideRepository(serviceApi: StackExchangeApi): UserRepository =
         UserRepositoryImpl(serviceApi)
+
+    @Provides
+    @Singleton
+    fun provideUsecases(repository: UserRepository) = UserUseCases(
+        GetUsersUseCase(repository), GetUserUseCase(repository)
+    )
 }
