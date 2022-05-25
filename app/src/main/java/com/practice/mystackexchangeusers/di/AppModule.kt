@@ -2,6 +2,8 @@ package com.practice.mystackexchangeusers.di
 
 import com.practice.mystackexchangeusers.common.Constants
 import com.practice.mystackexchangeusers.data.remote.StackExchangeApi
+import com.practice.mystackexchangeusers.data.repository.UserRepositoryImpl
+import com.practice.mystackexchangeusers.domain.repository.UserRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,4 +23,9 @@ object AppModule {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(StackExchangeApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideRepository(serviceApi: StackExchangeApi): UserRepository =
+        UserRepositoryImpl(serviceApi)
 }
