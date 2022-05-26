@@ -6,7 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.practice.mystackexchangeusers.databinding.ItemUsersBinding
 import com.practice.mystackexchangeusers.domain.model.User
 
-class UsersAdapter : RecyclerView.Adapter<UsersAdapter.UsersViewHolder>() {
+
+typealias OnUserClickedListener = (User) -> Unit
+
+class UsersAdapter :
+    RecyclerView.Adapter<UsersAdapter.UsersViewHolder>(), OnUserClickedListener {
+
+    lateinit var onUserClickedListener: OnUserClickedListener
 
     var userList = emptyList<User>()
 
@@ -16,7 +22,7 @@ class UsersAdapter : RecyclerView.Adapter<UsersAdapter.UsersViewHolder>() {
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            )
+            ), this
         )
 
     override fun onBindViewHolder(holder: UsersViewHolder, position: Int) {
@@ -25,12 +31,20 @@ class UsersAdapter : RecyclerView.Adapter<UsersAdapter.UsersViewHolder>() {
 
     override fun getItemCount() = userList.size
 
-    class UsersViewHolder(val binding: ItemUsersBinding) : RecyclerView.ViewHolder(binding.root) {
+    class UsersViewHolder(
+        private val binding: ItemUsersBinding,
+        val onItemClickListener: OnUserClickedListener
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(user: User) {
             with(binding) {
                 tvUserId.text = user.userId.toString()
                 tvUserName.text = user.userName
+                cvUsers.setOnClickListener {
+                    onItemClickListener(user)
+                }
             }
         }
     }
+
+    override fun invoke(user: User) = onUserClickedListener(user)
 }
