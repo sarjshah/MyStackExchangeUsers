@@ -12,11 +12,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.practice.mystackexchangeusers.R
 import com.practice.mystackexchangeusers.databinding.FragmentUsersBinding
 import com.practice.mystackexchangeusers.presentation.adapters.UsersAdapter
+import com.practice.mystackexchangeusers.presentation.userlist.UsersViewModel.Action
+import com.practice.mystackexchangeusers.presentation.userlist.UsersViewModel.ViewEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 /**
@@ -46,15 +48,27 @@ class UsersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        usersAdapter = UsersAdapter()
         setupRecyclerView()
         setupData()
+        setUpEventFlow()
+    }
 
-
-        binding.btnSearch.setOnClickListener {
-            findNavController().navigate(R.id.action_UsersFragment_to_UserDetailsFragment)
+    private fun setUpEventFlow() {
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.viewEvent.collectLatest { event ->
+                    when (event) {
+                        is ViewEvent.GoToUserDetails -> {
+                            val action =
+                                UsersFragmentDirections.actionUsersFragmentToUserDetailsFragment(
+                                    event.user
+                                )
+                            findNavController().navigate(action)
+                        }
+                    }
+                }
+            }
         }
-
     }
 
     private fun setupData() {
@@ -64,10 +78,10 @@ class UsersFragment : Fragment() {
                     when (state) {
                         is UsersViewModel.ViewState.Content -> {
                             binding.pbLoading.visibility = View.GONE
-                            usersAdapter.userList = state.users.users
+                            usersAdapter.userList = state.users
                         }
                         is UsersViewModel.ViewState.Error -> {
-                            Toast.makeText(context, "${state.error}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Error occurred: ${state.error}", Toast.LENGTH_SHORT).show()
                         }
                         UsersViewModel.ViewState.Loading -> {
                             binding.pbLoading.visibility = View.VISIBLE
@@ -80,8 +94,14 @@ class UsersFragment : Fragment() {
 
     private fun setupRecyclerView() {
         binding.rvUsers.apply {
+            usersAdapter = UsersAdapter()
             adapter = usersAdapter
             layoutManager = LinearLayoutManager(context)
+            setHasFixedSize(true)
+        }
+
+        usersAdapter.onUserClickedListener = { user ->
+            viewModel.send(Action.UserClicked(user))
         }
     }
 
