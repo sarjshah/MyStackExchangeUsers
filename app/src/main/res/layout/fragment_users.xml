@@ -5,23 +5,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textview_first"
+    <ProgressBar
+        android:id="@+id/pbLoading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_first_fragment"
-        app:layout_constraintBottom_toTopOf="@id/button_first"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/rvUsers"
+        app:layout_constraintEnd_toEndOf="@+id/rvUsers"
+        app:layout_constraintStart_toStartOf="@+id/rvUsers"
+        app:layout_constraintTop_toTopOf="@+id/etSearch" />
+
+    <EditText
+        android:id="@+id/etSearch"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:hint="@string/users_search_hint"
+        app:layout_constraintBottom_toTopOf="@id/rvUsers"
+        app:layout_constraintEnd_toStartOf="@id/btnSearch"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button_first"
+    <ImageButton
+        android:id="@+id/btnSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/next"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/ic_search"
+        app:layout_constraintBottom_toTopOf="@id/rvUsers"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/etSearch"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvUsers"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textview_first" />
+        app:layout_constraintTop_toBottomOf="@id/etSearch"
+        tools:listitem="@layout/item_users" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
