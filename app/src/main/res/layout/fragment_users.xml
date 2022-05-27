@@ -13,14 +13,17 @@
         app:layout_constraintBottom_toBottomOf="@+id/rvUsers"
         app:layout_constraintEnd_toEndOf="@+id/rvUsers"
         app:layout_constraintStart_toStartOf="@+id/rvUsers"
-        app:layout_constraintTop_toTopOf="@+id/etSearch" />
+        app:layout_constraintTop_toTopOf="@+id/svSearch" />
 
-    <EditText
-        android:id="@+id/etSearch"
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/svSearch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:hint="@string/users_search_hint"
+        app:queryHint="@string/users_search_hint"
+        app:iconifiedByDefault="false"
+        app:searchHintIcon="@null"
+        app:searchIcon="@null"
         app:layout_constraintBottom_toTopOf="@id/rvUsers"
         app:layout_constraintEnd_toStartOf="@id/btnSearch"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +37,7 @@
         android:src="@drawable/ic_search"
         app:layout_constraintBottom_toTopOf="@id/rvUsers"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/etSearch"
+        app:layout_constraintStart_toEndOf="@id/svSearch"
         app:layout_constraintTop_toTopOf="parent"/>
 
 
@@ -46,7 +49,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etSearch"
+        app:layout_constraintTop_toBottomOf="@id/svSearch"
         tools:listitem="@layout/item_users" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

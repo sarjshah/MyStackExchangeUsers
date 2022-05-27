@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -24,13 +25,27 @@ class UsersViewModel @Inject constructor(
     private val _viewEvent = MutableSharedFlow<ViewEvent>()
     val viewEvent: Flow<ViewEvent> = _viewEvent
 
+
+    private val queryStateFlow = MutableStateFlow("")
+    private var rawList = MutableStateFlow(emptyList<User>())
+
     init {
         loadContent()
     }
 
+    fun textChanged(text: String) {
+        queryStateFlow.value = text
+    }
+
+    private val _filteredResult = queryStateFlow.combine(rawList) { query, users ->
+        users.filter { user -> user.userName.startsWith(query, ignoreCase = true) }
+    }
+    val filteredResult = _filteredResult
+
     fun send(action: Action) = viewModelScope.launch {
         when (action) {
             is Action.UserClicked -> _viewEvent.emit(ViewEvent.GoToUserDetails(action.user))
+            is Action.SearchUpdated -> textChanged(action.string)
         }
     }
 
@@ -42,6 +57,7 @@ class UsersViewModel @Inject constructor(
                     result.message ?: "An unknown error has occurred"
                 )
                 is Resource.Success -> {
+                    rawList.value = result.data?.users ?: emptyList()
                     ViewState.Content(result.data?.users ?: emptyList())
                 }
             }
@@ -59,5 +75,6 @@ class UsersViewModel @Inject constructor(
 
     sealed class Action() {
         data class UserClicked(val user: User) : Action()
+        data class SearchUpdated(val string: String) : Action()
     }
 }

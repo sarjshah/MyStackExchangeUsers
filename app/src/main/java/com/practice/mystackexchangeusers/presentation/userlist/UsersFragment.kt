@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.practice.mystackexchangeusers.common.onQueryTextChanged
 import com.practice.mystackexchangeusers.databinding.FragmentUsersBinding
 import com.practice.mystackexchangeusers.presentation.adapters.UsersAdapter
 import com.practice.mystackexchangeusers.presentation.userlist.UsersViewModel.Action
@@ -38,11 +39,10 @@ class UsersFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentUsersBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,45 +51,7 @@ class UsersFragment : Fragment() {
         setupRecyclerView()
         setupData()
         setUpEventFlow()
-    }
-
-    private fun setUpEventFlow() {
-        lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.viewEvent.collectLatest { event ->
-                    when (event) {
-                        is ViewEvent.GoToUserDetails -> {
-                            val action =
-                                UsersFragmentDirections.actionUsersFragmentToUserDetailsFragment(
-                                    event.user
-                                )
-                            findNavController().navigate(action)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun setupData() {
-        lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.viewState.collect { state ->
-                    when (state) {
-                        is UsersViewModel.ViewState.Content -> {
-                            binding.pbLoading.visibility = View.GONE
-                            usersAdapter.userList = state.users
-                        }
-                        is UsersViewModel.ViewState.Error -> {
-                            Toast.makeText(context, "Error occurred: ${state.error}", Toast.LENGTH_SHORT).show()
-                        }
-                        UsersViewModel.ViewState.Loading -> {
-                            binding.pbLoading.visibility = View.VISIBLE
-                        }
-                    }
-                }
-            }
-        }
+        setupSearch()
     }
 
     private fun setupRecyclerView() {
@@ -102,6 +64,64 @@ class UsersFragment : Fragment() {
 
         usersAdapter.onUserClickedListener = { user ->
             viewModel.send(Action.UserClicked(user))
+        }
+    }
+
+    private fun setupData() {
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.viewState.collect { state ->
+                    when (state) {
+                        is UsersViewModel.ViewState.Content -> {
+                            binding.pbLoading.visibility = View.GONE
+                            usersAdapter.updateUserList(state.users)
+                        }
+                        is UsersViewModel.ViewState.Error -> {
+                            Toast.makeText(
+                                context,
+                                "Error occurred: ${state.error}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        UsersViewModel.ViewState.Loading -> {
+                            binding.pbLoading.visibility = View.VISIBLE
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setUpEventFlow() {
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.viewEvent.collectLatest { event ->
+                    when (event) {
+                        is ViewEvent.GoToUserDetails -> {
+                            val action =
+                                UsersFragmentDirections.actionUsersFragmentToUserDetailsFragment(
+                                    event.user, event.user.userName
+                                )
+                            findNavController().navigate(action)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setupSearch() {
+        binding.svSearch.onQueryTextChanged {
+            viewModel.send(Action.SearchUpdated(it))
+        }
+
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.filteredResult.collectLatest { filteredUserList ->
+                    usersAdapter.updateUserList(filteredUserList)
+
+                }
+            }
         }
     }
 
