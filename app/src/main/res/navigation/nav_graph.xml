@@ -18,7 +18,7 @@
     <fragment
         android:id="@+id/UserDetailsFragment"
         android:name="com.practice.mystackexchangeusers.presentation.userdetail.UserDetailsFragment"
-        android:label="@string/user_details_fragment_label"
+        android:label="{title}"
         tools:layout="@layout/fragment_user_details">
 
         <action
@@ -27,5 +27,8 @@
         <argument
             android:name="user"
             app:argType="com.practice.mystackexchangeusers.domain.model.User" />
+        <argument
+            android:name="title"
+            app:argType="string" />
     </fragment>
 </navigation>
