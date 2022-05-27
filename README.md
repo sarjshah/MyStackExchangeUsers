@@ -1,3 +1,5 @@
+https://user-images.githubusercontent.com/59883747/170717801-134394ff-e3aa-42e9-80b8-c2047e240b18.mp4
+
 # StackExchange App
 The Stack Exchange App provides users with a list of users from different sites. The data shown in the app is retrieved from the Stackoverflow. 
 
@@ -39,8 +41,6 @@ The Project follows a Clean Architecture and MVVM with Repository pattern archit
 - Refactor and add workmanager to retrieve data from API in the background.
 
 
-
-https://user-images.githubusercontent.com/59883747/170717801-134394ff-e3aa-42e9-80b8-c2047e240b18.mp4
 
 
 
