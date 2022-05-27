@@ -58,7 +58,9 @@ class UsersViewModel @Inject constructor(
                 )
                 is Resource.Success -> {
                     rawList.value = result.data?.users ?: emptyList()
-                    ViewState.Content(result.data?.users ?: emptyList())
+                    ViewState.Content(
+                        result.data?.users?.sortedBy { it.userName }?.take(20) ?: emptyList()
+                    )
                 }
             }
         }.launchIn(viewModelScope)
