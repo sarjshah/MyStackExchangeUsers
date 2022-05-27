@@ -1,5 +1,9 @@
+
+
 # StackExchange App
 The Stack Exchange App provides users with a list of users from different sites. The data shown in the app is retrieved from the Stackoverflow. 
+
+https://user-images.githubusercontent.com/59883747/170717801-134394ff-e3aa-42e9-80b8-c2047e240b18.mp4
 
 # Screens
 Used UI wireframe diagrams to create 2 screens for the app.
@@ -37,3 +41,8 @@ The Project follows a Clean Architecture and MVVM with Repository pattern archit
 - Project can be refactored to use Pagination 3 that has been developed with Kotlin coroutines in mind.
 - Refactor to cache data in Room DB.
 - Refactor and add workmanager to retrieve data from API in the background.
+
+
+
+
+
