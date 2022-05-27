@@ -13,7 +13,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/rvUsers"
         app:layout_constraintEnd_toEndOf="@+id/rvUsers"
         app:layout_constraintStart_toStartOf="@+id/rvUsers"
-        app:layout_constraintTop_toTopOf="@+id/svSearch" />
+        app:layout_constraintTop_toTopOf="@+id/svSearch"
+        tools:visibility="visible"/>
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/svSearch"

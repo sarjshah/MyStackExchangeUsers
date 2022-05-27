@@ -77,10 +77,11 @@ class UsersFragment : Fragment() {
                             usersAdapter.updateUserList(state.users)
                         }
                         is UsersViewModel.ViewState.Error -> {
+                            binding.pbLoading.visibility = View.GONE
                             Toast.makeText(
                                 context,
                                 "Error occurred: ${state.error}",
-                                Toast.LENGTH_SHORT
+                                Toast.LENGTH_LONG
                             ).show()
                         }
                         UsersViewModel.ViewState.Loading -> {
