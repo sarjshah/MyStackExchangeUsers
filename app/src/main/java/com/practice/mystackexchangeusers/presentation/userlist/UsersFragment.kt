@@ -100,7 +100,7 @@ class UsersFragment : Fragment() {
                         is ViewEvent.GoToUserDetails -> {
                             val action =
                                 UsersFragmentDirections.actionUsersFragmentToUserDetailsFragment(
-                                    event.user, event.user.userName
+                                    event.user.userId, event.user.userName
                                 )
                             findNavController().navigate(action)
                         }

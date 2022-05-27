@@ -25,8 +25,8 @@
             android:id="@+id/action_UserDetailsFragment_to_UsersFragment"
             app:destination="@id/UsersFragment" />
         <argument
-            android:name="user"
-            app:argType="com.practice.mystackexchangeusers.domain.model.User" />
+            android:name="userId"
+            app:argType="integer" />
         <argument
             android:name="title"
             app:argType="string" />
