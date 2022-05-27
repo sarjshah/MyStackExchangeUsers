@@ -57,9 +57,9 @@ class UsersViewModel @Inject constructor(
                     result.message ?: "An unknown error has occurred"
                 )
                 is Resource.Success -> {
-                    rawList.value = result.data?.users ?: emptyList()
+                    rawList.value = result.data ?: emptyList()
                     ViewState.Content(
-                        result.data?.users?.sortedBy { it.userName }?.take(20) ?: emptyList()
+                        result.data?.sortedBy { it.userName }?.take(20) ?: emptyList()
                     )
                 }
             }

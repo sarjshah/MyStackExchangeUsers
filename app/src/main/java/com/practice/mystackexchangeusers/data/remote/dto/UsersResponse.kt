@@ -3,7 +3,6 @@ package com.practice.mystackexchangeusers.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 import com.practice.mystackexchangeusers.domain.model.User
-import com.practice.mystackexchangeusers.domain.model.Users
 
 data class UsersResponse(
     @SerializedName("items")
@@ -17,8 +16,7 @@ data class UsersResponse(
     )
 }
 
-fun UsersResponse.toUsers() = Users(
+fun UsersResponse.toUsers() =
     items.map {
         User(userId = it.userId, userName = it.displayName)
     }
-)
