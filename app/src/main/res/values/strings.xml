@@ -9,4 +9,13 @@
     <string name="users_search_hint">Enter Search</string>
 
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="badge_gold">Gold</string>
+    <string name="badge_silver">Silver</string>
+    <string name="badge_bronze">Bronze</string>
+    <string name="layout_about">About</string>
+    <string name="layout_username">Username</string>
+    <string name="layout_reputation">Reputation</string>
+    <string name="layout_location">Location</string>
+    <string name="layout_creation_date">Creation Date</string>
+    <string name="layout_badges">Badges</string>
 </resources>
