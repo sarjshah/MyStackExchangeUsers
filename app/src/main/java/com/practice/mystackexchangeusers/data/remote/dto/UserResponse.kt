@@ -50,6 +50,7 @@ fun UserResponse.toUser() = this.items.firstNotNullOf {
         reputation = it.reputation,
         badges = it.badgeCountsDto.toBadgeCounts(),
         location = it.link,
-        creationDate = it.creationDate
+        creationDate = it.creationDate,
+        profileImage = it.profileImage
     )
 }

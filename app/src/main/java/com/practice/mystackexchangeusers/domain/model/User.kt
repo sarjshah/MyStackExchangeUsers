@@ -10,7 +10,8 @@ data class User(
     val reputation: Int? = null,
     val badges: BadgeCounts? = null,
     val location: String? = null,
-    val creationDate: Int? = null
+    val creationDate: Int? = null,
+    val profileImage: String? = null
 ) : Parcelable {
 
 
