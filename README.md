@@ -37,3 +37,10 @@ The Project follows a Clean Architecture and MVVM with Repository pattern archit
 - Project can be refactored to use Pagination 3 that has been developed with Kotlin coroutines in mind.
 - Refactor to cache data in Room DB.
 - Refactor and add workmanager to retrieve data from API in the background.
+
+
+
+https://user-images.githubusercontent.com/59883747/170717801-134394ff-e3aa-42e9-80b8-c2047e240b18.mp4
+
+
+
