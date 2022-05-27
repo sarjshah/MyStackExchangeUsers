@@ -15,8 +15,8 @@ data class UserResponse(
         val creationDate: Int,
         @SerializedName("display_name")
         val displayName: String,
-        @SerializedName("link")
-        val link: String,
+        @SerializedName("location")
+        val location: String,
         @SerializedName("profile_image")
         val profileImage: String,
         @SerializedName("reputation")
@@ -49,7 +49,7 @@ fun UserResponse.toUser() = this.items.firstNotNullOf {
         userName = it.displayName,
         reputation = it.reputation,
         badges = it.badgeCountsDto.toBadgeCounts(),
-        location = it.link,
+        location = it.location,
         creationDate = it.creationDate,
         profileImage = it.profileImage
     )
