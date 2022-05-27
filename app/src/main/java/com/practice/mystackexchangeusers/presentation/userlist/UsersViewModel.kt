@@ -39,7 +39,7 @@ class UsersViewModel @Inject constructor(
 
     private val _filteredResult = queryStateFlow.combine(rawList) { query, users ->
         users.filter { user -> user.userName.startsWith(query, ignoreCase = true) }
-            .sortedBy { it.userName }
+            .sortedBy { it.userName }.take(20)
     }
     val filteredResult = _filteredResult
 
