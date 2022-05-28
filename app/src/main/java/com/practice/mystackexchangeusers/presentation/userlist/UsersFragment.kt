@@ -1,9 +1,11 @@
 package com.practice.mystackexchangeusers.presentation.userlist
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -12,7 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.practice.mystackexchangeusers.common.onQueryTextChanged
 import com.practice.mystackexchangeusers.databinding.FragmentUsersBinding
 import com.practice.mystackexchangeusers.presentation.adapters.UsersAdapter
 import com.practice.mystackexchangeusers.presentation.userlist.UsersViewModel.Action
@@ -21,6 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -87,6 +89,10 @@ class UsersFragment : Fragment() {
                         UsersViewModel.ViewState.Loading -> {
                             binding.pbLoading.visibility = View.VISIBLE
                         }
+                        is UsersViewModel.ViewState.Filtered -> {
+                            binding.btnClearSearch.visibility =
+                                if (state.isFiltered) View.VISIBLE else View.GONE
+                        }
                     }
                 }
             }
@@ -112,8 +118,18 @@ class UsersFragment : Fragment() {
     }
 
     private fun setupSearch() {
-        binding.svSearch.onQueryTextChanged {
-            viewModel.send(Action.SearchUpdated(it))
+        with(binding) {
+            btnSearch.setOnClickListener {
+                val userInput = etSearch.text.toString()
+                viewModel.textChanged(userInput)
+                hideKeyboard()
+            }
+
+            btnClearSearch.setOnClickListener {
+                etSearch.text.clear()
+                viewModel.textChanged("")
+                hideKeyboard()
+            }
         }
 
         lifecycleScope.launch {
@@ -124,6 +140,12 @@ class UsersFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun hideKeyboard() {
+        val imm: InputMethodManager =
+            requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(requireView().windowToken, 0)
     }
 
     override fun onDestroyView() {

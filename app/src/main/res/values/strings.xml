@@ -7,6 +7,7 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="users_search_hint">Enter Search</string>
+    <string name="button_clear_search">Clear Search</string>
 
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="badge_gold">Gold</string>

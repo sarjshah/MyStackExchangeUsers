@@ -13,18 +13,18 @@
         app:layout_constraintBottom_toBottomOf="@+id/rvUsers"
         app:layout_constraintEnd_toEndOf="@+id/rvUsers"
         app:layout_constraintStart_toStartOf="@+id/rvUsers"
-        app:layout_constraintTop_toTopOf="@+id/svSearch"
-        tools:visibility="visible"/>
+        app:layout_constraintTop_toTopOf="@+id/etSearch"
+        tools:visibility="visible" />
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/svSearch"
+    <EditText
+        android:id="@+id/etSearch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        app:queryHint="@string/users_search_hint"
-        app:iconifiedByDefault="false"
-        app:searchHintIcon="@null"
-        app:searchIcon="@null"
+        android:hint="@string/users_search_hint"
+        android:maxLines="1"
+        android:inputType="text"
+        android:autofillHints="name"
         app:layout_constraintBottom_toTopOf="@id/rvUsers"
         app:layout_constraintEnd_toStartOf="@id/btnSearch"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,19 +38,30 @@
         android:src="@drawable/ic_search"
         app:layout_constraintBottom_toTopOf="@id/rvUsers"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/svSearch"
-        app:layout_constraintTop_toTopOf="parent"/>
-
+        app:layout_constraintStart_toEndOf="@id/etSearch"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvUsers"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="8dp"
+        app:layout_constraintBottom_toTopOf="@id/btnClearSearch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etSearch"
+        tools:listitem="@layout/item_users" />
+
+    <Button
+        android:id="@+id/btnClearSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_clear_search"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/svSearch"
-        tools:listitem="@layout/item_users" />
+        app:layout_constraintTop_toBottomOf="@id/rvUsers"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
