@@ -1,6 +1,8 @@
 package com.practice.mystackexchangeusers.di
 
 import com.practice.mystackexchangeusers.common.Constants
+import com.practice.mystackexchangeusers.common.DefaultDispatchers
+import com.practice.mystackexchangeusers.common.DispatcherProvider
 import com.practice.mystackexchangeusers.data.remote.StackExchangeApi
 import com.practice.mystackexchangeusers.data.repository.UserRepositoryImpl
 import com.practice.mystackexchangeusers.domain.repository.UserRepository
@@ -37,4 +39,8 @@ object AppModule {
     fun provideUsecases(repository: UserRepository) = UserUseCases(
         GetUsersUseCase(repository), GetUserUseCase(repository)
     )
+
+    @Provides
+    @Singleton
+    fun provideDispatcher(): DispatcherProvider = DefaultDispatchers()
 }
